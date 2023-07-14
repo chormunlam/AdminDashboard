@@ -1,5 +1,8 @@
 import styled from "styled-components";
+//import { Button } from "./Button";
+import Button from "./ui/Button";
 import GlobalStyles from "./styles/GlobalStyles";
+import Input from "./ui/Input";
 
 const H1 = styled.h1`
   font-size: 30px;
@@ -7,26 +10,11 @@ const H1 = styled.h1`
   background-color: yellow;
 `;
 
-const Button = styled.button`
-  font-size: 1.4rem;
-  padding: 1.2rem 1.6rem;
-  font-weight: 500;
-  border: none;
-  border-radius: 7px;
-  background-color: purple;
-  color: white;
-`;
-
-const Input = styled.input`
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 0.8rem, 1.2rem;
-`;
-
 const StyleApp = styled.div`
   background-color: orangered;
   padding: 20px;
 `;
+
 export default function App() {
   return (
     <>
@@ -35,6 +23,7 @@ export default function App() {
         <H1>hi</H1>
         <Button onClick={() => alert("check in")}>Check In</Button>
         <Button onClick={() => alert("check out")}>Check Out</Button>
+
         <Input type="number" placehold er="number fild"></Input>
       </StyleApp>
     </>
