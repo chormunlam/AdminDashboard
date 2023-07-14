@@ -1,12 +1,13 @@
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-
+/* eslint-disable */
 const NavList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
 `;
 
-const Link = styled.a`
+const StyledNavLink = styled(NavLink)`
   &:link,
   &:visited {
     display: flex;
@@ -44,3 +45,19 @@ const Link = styled.a`
     color: var(--color-brand-600);
   }
 `;
+
+function MainNav() {
+  return (
+    <nav>
+      <NavList>
+        <li>
+          <StyledNavLink to="/dashboard">Home</StyledNavLink>
+        </li>
+        <li>
+          <StyledNavLink to="/bookings">Booking</StyledNavLink>
+        </li>
+      </NavList>
+    </nav>
+  );
+}
+export default MainNav;
