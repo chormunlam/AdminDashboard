@@ -56,6 +56,15 @@ function MainNav() {
         <li>
           <StyledNavLink to="/bookings">Booking</StyledNavLink>
         </li>
+        <li>
+          <StyledNavLink to="/workingspaces">Working Space</StyledNavLink>
+        </li>
+        <li>
+          <StyledNavLink to="/users">Users</StyledNavLink>
+        </li>
+        <li>
+          <StyledNavLink to="/Setting">Setting</StyledNavLink>
+        </li>
       </NavList>
     </nav>
   );

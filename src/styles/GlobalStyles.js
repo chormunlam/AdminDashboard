@@ -26,6 +26,9 @@ const GlobalStyles = createGlobalStyle`
   --color-grey-800: #1f2937;
   --color-grey-900: #111827;
 
+  --color-grey-tiqc-text:#333333;
+  --color-grey-tiqc-border:#555555;
+
   --color-blue-100: #e0f2fe;
   --color-blue-700: #0369a1;
   --color-green-100: #dcfce7;
@@ -40,6 +43,7 @@ const GlobalStyles = createGlobalStyle`
   --color-red-100: #fee2e2;
   --color-red-700: #b91c1c;
   --color-red-800: #991b1b;
+  --color-red-tiqc:#e71938;
 
   --backdrop-color: rgba(255, 255, 255, 0.1);
 
