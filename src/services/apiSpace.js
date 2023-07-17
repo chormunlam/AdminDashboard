@@ -10,6 +10,19 @@ export async function getWS() {
   return data;
 }
 
+export async function createWS(newWS) {
+  const { data, error } = await supabase
+    .from("workingspace")
+    .insert([newWS])
+    .select();
+  if (error) {
+    console.error(error);
+    throw new Error("co-working space could not be created");
+  }
+
+  return data;
+}
+
 export async function deleteWS(id) {
   const { data, error } = await supabase
     .from("workingspace")
