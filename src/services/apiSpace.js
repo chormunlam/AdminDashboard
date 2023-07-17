@@ -9,3 +9,17 @@ export async function getWS() {
   }
   return data;
 }
+
+export async function deleteWS(id) {
+  const { data, error } = await supabase
+    .from("workingspace")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    console.error(error);
+    throw new Error("co-working space could not be deleted");
+  }
+
+  return data;
+}
