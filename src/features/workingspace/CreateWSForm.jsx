@@ -1,5 +1,4 @@
 import styled from "styled-components";
-
 import Input from "../../ui/Input";
 import Form from "../../ui/Form";
 import Button from "../../ui/Button";
@@ -9,8 +8,9 @@ import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createWS } from "../../services/apiSpace";
 import toast from "react-hot-toast";
+import FormRow from "../../ui/FormRow";
 
-const FormRow = styled.div`
+const FormRow2 = styled.div`
   display: grid;
   align-items: center;
   grid-template-columns: 24rem 1fr 1.2fr;
@@ -61,7 +61,7 @@ function CreateWSForm() {
   const { register, handleSubmit, reset, getValues, formState } = useForm();
 
   const { errors } = formState;
-  console.log(errors);
+  //console.log(errors);
 
   function onSubmit(data) {
     mutate(data);
@@ -73,18 +73,15 @@ function CreateWSForm() {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit, onError)}>
-      <FormRow>
-        <Label htmlFor="name">Room name</Label>
+      <FormRow label="Room name" error={errors?.name?.message}>
         <Input
           type="text"
           id="name"
           {...register("name", { required: "this field is required" })}
         />
-        {errors?.name?.message && <Error>{errors.name.message}</Error>}
       </FormRow>
 
-      <FormRow>
-        <Label htmlFor="maxCapacity">Maximum capacity</Label>
+      <FormRow label="maxCapacity " error={errors?.name?.message}>
         <Input
           type="number"
           id="maxCapacity"
@@ -98,8 +95,7 @@ function CreateWSForm() {
         />
       </FormRow>
 
-      <FormRow>
-        <Label htmlFor="regularPrice">Regular price</Label>
+      <FormRow label="Regular price " error={errors?.name?.message}>
         <Input
           type="number"
           id="regularPrice"
@@ -107,8 +103,7 @@ function CreateWSForm() {
         />
       </FormRow>
 
-      <FormRow>
-        <Label htmlFor="discount">Discount</Label>
+      <FormRow label="discount " error={errors?.name?.message}>
         <Input
           type="number"
           id="discount"
@@ -121,9 +116,7 @@ function CreateWSForm() {
           })}
         />
       </FormRow>
-
-      <FormRow>
-        <Label htmlFor="description">Description for website</Label>
+      <FormRow label="discriptioin of the room" error={errors?.name?.message}>
         <Textarea
           type="number"
           id="description"
@@ -131,19 +124,17 @@ function CreateWSForm() {
           {...register("description", { required: "this field is required" })}
         />
       </FormRow>
-
-      <FormRow>
+      <FormRow2>
         <Label htmlFor="image">Cabin photo</Label>
         <FileInput id="image" accept="image/*" />
-      </FormRow>
-
-      <FormRow>
+      </FormRow2>
+      <FormRow2>
         {/* type is an HTML attribute! */}
         <Button variation="secondary" type="reset">
           Cancel
         </Button>
         <Button disabled={isCreating}>Add working space</Button>
-      </FormRow>
+      </FormRow2>
     </Form>
   );
 }
