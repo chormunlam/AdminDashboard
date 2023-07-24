@@ -12,3 +12,11 @@ console.log(data);
 return data;
 
 }
+export async function getCurrentUser(){
+  const {data: session}=await supabase.auth.getSession();//this give data in local stoarge we receievd earlier
+  if(!session.session) return null;//no currentuser
+  const {data, error}=await supabase.auth.getUser();
+  console.log(data);
+  if(error) throw new Error(error.message);
+  return data?.user;
+}
