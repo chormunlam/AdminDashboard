@@ -10,6 +10,7 @@ import { createWS } from "../../services/apiSpace";
 import toast from "react-hot-toast";
 import FormRow from "../../ui/FormRow";
 
+
 const FormRow2 = styled.div`
   display: grid;
   align-items: center;
@@ -77,14 +78,17 @@ function CreateWSForm() {
         <Input
           type="text"
           id="name"
+          disabled={isCreating}
           {...register("name", { required: "this field is required" })}
         />
+  
       </FormRow>
 
       <FormRow label="maxCapacity " error={errors?.name?.message}>
         <Input
           type="number"
           id="maxCapacity"
+          disabled={isCreating}
           {...register("maxCapacity", {
             required: "this field is required",
             min: {
@@ -99,6 +103,7 @@ function CreateWSForm() {
         <Input
           type="number"
           id="regularPrice"
+          disabled={isCreating}
           {...register("regularPrice", { required: "this field is required" })}
         />
       </FormRow>
@@ -107,6 +112,7 @@ function CreateWSForm() {
         <Input
           type="number"
           id="discount"
+          disabled={isCreating}
           defaultValue={0}
           {...register("discount", {
             required: "this field is required",
@@ -116,25 +122,30 @@ function CreateWSForm() {
           })}
         />
       </FormRow>
-      <FormRow label="discriptioin of the room" error={errors?.name?.message}>
+      <FormRow label="discriptioin of the room" disabled={isCreating} error={errors?.name?.message}>
         <Textarea
           type="number"
           id="description"
+          disabled={isCreating}
           defaultValue=""
           {...register("description", { required: "this field is required" })}
         />
       </FormRow>
-      <FormRow2>
-        <Label htmlFor="image">Cabin photo</Label>
-        <FileInput id="image" accept="image/*" />
-      </FormRow2>
-      <FormRow2>
+      <FormRow label='ws photo'>
+      
+        <FileInput id="image" accept="image/*" type='file'{
+          ...register('image',{
+            required: 'this field is required',            
+          })
+        }/>
+      </FormRow>
+      <FormRow>
         {/* type is an HTML attribute! */}
         <Button variation="secondary" type="reset">
           Cancel
         </Button>
         <Button disabled={isCreating}>Add working space</Button>
-      </FormRow2>
+      </FormRow>
     </Form>
   );
 }
