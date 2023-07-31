@@ -54,10 +54,10 @@ function MainNav() {
           <StyledNavLink to="/dashboard">Home</StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/bookings">Booking</StyledNavLink>
+          <StyledNavLink to="/bookings">Adopt</StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/workingspaces">Working Space</StyledNavLink>
+          <StyledNavLink to="/cats">Cats</StyledNavLink>
         </li>
         <li>
           <StyledNavLink to="/users">Users</StyledNavLink>

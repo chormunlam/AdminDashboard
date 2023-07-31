@@ -1,19 +1,19 @@
 import supabase from "./supabase";
 
-export async function getWS() {
-  const { data, error } = await supabase.from("workingspace").select("*");
+export async function getCats() {
+  const { data, error } = await supabase.from("cats").select("*");
 
   if (error) {
     console.error();
-    throw new Error("Working space can not be loaded");
+    throw new Error("Cats can not be loaded");
   }
   return data;
 }
 
-export async function createWS(newWS) {
+export async function createCat(newCat) {
   const { data, error } = await supabase
-    .from("workingspace")
-    .insert([newWS])
+    .from("cats")
+    .insert([newCat])
     .select();
   if (error) {
     console.error(error);
@@ -23,9 +23,9 @@ export async function createWS(newWS) {
   return data;
 }
 
-export async function deleteWS(id) {
+export async function deleteCat(id) {
   const { data, error } = await supabase
-    .from("workingspace")
+    .from("cats")
     .delete()
     .eq("id", id);
 

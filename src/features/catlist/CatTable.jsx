@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Spinner from "../../ui/Spinner";
-import WSRow from "./WSRow";
+import CatRow from "./CatRow";
+
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
 
@@ -27,16 +28,16 @@ const TableHeader = styled.header`
 
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getWS } from "../../services/apiSpace";
+import { getCats } from "../../services/apiSpace";
 
-function WSTable() {
+function CatTable() {
   const {
     isLoading,
-    data: workingspaces,
+    data: cats,
     error,
   } = useQuery({
-    queryKey: ["wslist"],
-    queryFn: getWS,
+    queryKey: ["cat"],
+    queryFn: getCats,//fetch('url')
   });
   if (isLoading) return <Spinner />;
 
@@ -44,18 +45,18 @@ function WSTable() {
     <Table role="table">
       <TableHeader role="row">
         <div></div>
-        <div>Room</div>
-        <div>Capacity</div>
-        <div>Price</div>
-        <div>disount</div>
+        <div>Name</div>
+        <div>Gender</div>
+        <div>Age</div>
+        <div>Fee</div>
 
         <div></div>
       </TableHeader>
-      {workingspaces.map((ws) => (
-        <WSRow ws={ws} key={ws.id} />
+      {cats.map((cat) => (
+        <CatRow cat={cat} key={cat.id} />
       ))}
     </Table>
   );
 }
 
-export default WSTable;
+export default CatTable;

@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers";
-import { deleteWS } from "../../services/apiSpace";
+import { deleteCat } from "../../services/apiSpace";
 import toast from "react-hot-toast";
 /* eslint-disable */
 const TableRow = styled.div`
@@ -43,23 +43,23 @@ const Discount = styled.div`
   color: var(--color-green-700);
 `;
 
-function WSRow({ ws }) {
+function CatRow({cat}) {
   const {
-    id: wsId,
+    id: catId,
     name,
-    maxCapacity,
-    regularPrice,
-    discount,
+    gender,
+    age,
+    fee,
     description,
     image,
-  } = ws;
+  } = cat;
   const queryClient = useQueryClient();
   const { isLoading: isDeleting, mutate } = useMutation({
-    mutationFn: deleteWS,
+    mutationFn: deleteCat,
     onSuccess: () => {
       toast.success("deleted ");
       queryClient.invalidateQueries({
-        queryKey: ["wslist"],
+        queryKey: ["cat"],
       });
     },
     onError: (err) => toast.error(err.message),
@@ -69,14 +69,14 @@ function WSRow({ ws }) {
     <TableRow>
       <Img src={image} />
       <WorkingSpace>{name}</WorkingSpace>
-      <div> fit up to {maxCapacity} guests</div>
-      <Price>{formatCurrency(regularPrice)}</Price>
-      <Discount>{formatCurrency(discount)}</Discount>
-      <button onClick={() => mutate(wsId)} disabled={isDeleting}>
+      <div>geder is {gender}</div>
+      <Price>{age} years old</Price>
+      <Discount>{formatCurrency(fee)}</Discount>
+      <button onClick={() => mutate(catId)} disabled={isDeleting}>
         delete
       </button>
     </TableRow>
   );
 }
 
-export default WSRow;
+export default CatRow;
