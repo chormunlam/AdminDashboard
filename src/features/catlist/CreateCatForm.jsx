@@ -65,11 +65,11 @@ function CreateCatForm() {
   //console.log(errors);
 
   function onSubmit(data) {
-    mutate(data);
+    mutate({...data, image:data.image[0]});
   }
 
   function onError(errors) {
-    console.log(errors);
+   // console.log(errors);
   }
 
   return (
@@ -84,31 +84,28 @@ function CreateCatForm() {
   
       </FormRow>
 
-      <FormRow label="Gender" error={errors?.name?.message}>
+      <FormRow label="Gender" error={errors?.gender?.message}>
         <Input
           type="text"
           id="gender"
           disabled={isCreating}
           {...register("gender", {
             required: "this field is required",
-            min: {
-              value: 1,
-              message: "capacity should be at lease 1",
-            },
+           
           })}
         />
       </FormRow>
 
-      <FormRow label="Age" error={errors?.name?.message}>
+      <FormRow label="Age" error={errors?.age?.message}>
         <Input
-          type="number"
+          type="Number"
           id="age"
           disabled={isCreating}
           {...register("age", { required: "this field is required" })}
         />
       </FormRow>
 
-      <FormRow label="fee" error={errors?.name?.message}>
+      <FormRow label="fee" error={errors?.fee?.message}>
         <Input
           type="number"
           id="fee"
@@ -129,6 +126,20 @@ function CreateCatForm() {
           disabled={isCreating}
           defaultValue=""
           {...register("description", { required: "this field is required" })}
+        />
+      </FormRow>
+
+      <FormRow label="Cat photo">
+        <FileInput
+        id='image'
+        accept='image/*'
+        type='file'
+        {
+          ...register('image', 
+          {
+            required: 'this field is required'
+          })
+        }
         />
       </FormRow>
   

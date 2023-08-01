@@ -49,8 +49,6 @@ function CatTable() {
         <div>Gender</div>
         <div>Age</div>
         <div>Fee</div>
-
-        <div></div>
       </TableHeader>
       {cats.map((cat) => (
         <CatRow cat={cat} key={cat.id} />

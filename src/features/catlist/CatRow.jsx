@@ -25,7 +25,7 @@ const Img = styled.img`
   transform: scale(1.5) translateX(-7px);
 `;
 
-const WorkingSpace = styled.div`
+const Catdiv = styled.div`
   font-size: 1.6rem;
   font-weight: 600;
   color: var(--color-grey-600);
@@ -35,12 +35,6 @@ const WorkingSpace = styled.div`
 const Price = styled.div`
   font-family: "Sono";
   font-weight: 600;
-`;
-
-const Discount = styled.div`
-  font-family: "Sono";
-  font-weight: 500;
-  color: var(--color-green-700);
 `;
 
 function CatRow({cat}) {
@@ -68,10 +62,10 @@ function CatRow({cat}) {
   return (
     <TableRow>
       <Img src={image} />
-      <WorkingSpace>{name}</WorkingSpace>
-      <div>geder is {gender}</div>
-      <Price>{age} years old</Price>
-      <Discount>{formatCurrency(fee)}</Discount>
+      <Catdiv>{name}</Catdiv>
+      <div>{gender}</div>
+      <div>{age} yro</div>
+      <Price>{formatCurrency(fee)}</Price>
       <button onClick={() => mutate(catId)} disabled={isDeleting}>
         delete
       </button>
