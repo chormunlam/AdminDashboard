@@ -6,51 +6,26 @@ import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
 import { useForm } from "react-hook-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createCat } from "../../services/apiSpace";
+import { createEditCat } from "../../services/apiSpace";
 import toast from "react-hot-toast";
 import FormRow from "../../ui/FormRow";
 
+/* eslint-disable */
+function CreateCatForm({catToEdit={}}) {
+  const {id: editId, ...editValue}=catToEdit;
 
-const FormRow2 = styled.div`
-  display: grid;
-  align-items: center;
-  grid-template-columns: 24rem 1fr 1.2fr;
-  gap: 2.4rem;
+  const isEdit= Boolean(editId);//if got id, meant edited
 
-  padding: 1.2rem 0;
+  const { register, handleSubmit, reset, getValues, formState } = useForm(
+    {
+      defaultValues: isEdit ? editValue: {},
+    }
+  );
 
-  &:first-child {
-    padding-top: 0;
-  }
-
-  &:last-child {
-    padding-bottom: 0;
-  }
-
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-
-  &:has(button) {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1.2rem;
-  }
-`;
-
-const Label = styled.label`
-  font-weight: 500;
-`;
-
-const Error = styled.span`
-  font-size: 1.4rem;
-  color: var(--color-red-700);
-`;
-
-function CreateCatForm() {
   const queryClient = useQueryClient();
-  const { mutate, isLoading: isCreating } = useMutation({
-    mutationFn: createCat,
+  
+  const { mutate:createCat, isLoading: isCreating } = useMutation({
+    mutationFn: createEditCat,
     onSuccess: () => {
       toast.success("new cat sucessfully created");
       queryClient.invalidateQueries({ queryKey: ["cat"] });
@@ -59,17 +34,37 @@ function CreateCatForm() {
     onError: (err) => toast.error(err.message),
   });
 
-  const { register, handleSubmit, reset, getValues, formState } = useForm();
+  const { mutate:editCat, isLoading: isEditing } = useMutation({
+    mutationFn: ({newCatData, id})=>createEditCat(newCatData, id),
+    onSuccess: () => {
+      toast.success("cat info sucessfully edited");
+      queryClient.invalidateQueries({ queryKey: ["cat"] });
+      reset(); //only do it when sucess..
+    },
+    onError: (err) => toast.error(err.message),
+  });
+
+  const isWorking = isCreating || isEditing;
+
+
+  
 
   const { errors } = formState;
   //console.log(errors);
 
   function onSubmit(data) {
-    mutate({...data, image:data.image[0]});
+    //let chcek if the image is file type or string type. if file type , we need to uplaod it
+    const image = typeof(data.image) === "string" ? data.image : data.image[0];
+
+    //
+    if(isEdit) editCat({newCatData:{...data, image}, id:editId});//new cat data, and id
+    else createCat({...data, image: image});
+    //createEditCat({...data, image:data.image[0]});
+    //console.log(data);
   }
 
   function onError(errors) {
-   // console.log(errors);
+   console.log(errors);
   }
 
   return (
@@ -78,7 +73,7 @@ function CreateCatForm() {
         <Input
           type="text"
           id="name"
-          disabled={isCreating}
+          disabled={isWorking}
           {...register("name", { required: "this field is required" })}
         />
   
@@ -88,7 +83,7 @@ function CreateCatForm() {
         <Input
           type="text"
           id="gender"
-          disabled={isCreating}
+          disabled={isWorking}
           {...register("gender", {
             required: "this field is required",
            
@@ -100,7 +95,7 @@ function CreateCatForm() {
         <Input
           type="Number"
           id="age"
-          disabled={isCreating}
+          disabled={isWorking}
           {...register("age", { required: "this field is required" })}
         />
       </FormRow>
@@ -109,7 +104,7 @@ function CreateCatForm() {
         <Input
           type="number"
           id="fee"
-          disabled={isCreating}
+          disabled={isWorking}
           defaultValue={0}
           {...register("fee", {
             required: "this field is required",
@@ -119,13 +114,37 @@ function CreateCatForm() {
           })}
         />
       </FormRow>
-      <FormRow label="discriptioin of the cat" disabled={isCreating} error={errors?.name?.message}>
+      <FormRow label="discriptioin of the cat" disabled={isWorking} error={errors?.description?.message}>
         <Textarea
           type="text"
           id="description"
-          disabled={isCreating}
+          disabled={isWorking}
           defaultValue=""
           {...register("description", { required: "this field is required" })}
+        />
+      </FormRow>
+      <FormRow label="neutered" error={errors?.neutered?.message}>
+        <Input
+          type="checkbox"
+          id="neutered"
+          disabled={isWorking}
+          {...register("neutered", { required: "this field is required" })}
+        />
+      </FormRow>
+      <FormRow label="vaccinated" error={errors?.vaccinated?.message}>
+        <Input
+          type="checkbox"
+          id="vaccinated"
+          disabled={isWorking}
+          {...register("vaccinated", { required: "this field is required" })}
+        />
+      </FormRow>
+      <FormRow label="contact" error={errors?.contact?.message}>
+        <Input
+          type="text"
+          id="contact"
+          disabled={isWorking}
+          {...register("contact", { required: "this field is required" })}
         />
       </FormRow>
 
@@ -133,11 +152,9 @@ function CreateCatForm() {
         <FileInput
         id='image'
         accept='image/*'
-        type='file'
-        {
-          ...register('image', 
+        {...register('image', 
           {
-            required: 'this field is required'
+            required: isEdit? false :'this field is required',
           })
         }
         />
@@ -148,7 +165,7 @@ function CreateCatForm() {
         <Button variation="secondary" type="reset">
           Cancel
         </Button>
-        <Button disabled={isCreating}>Add New Cat</Button>
+        <Button disabled={isWorking}>{isEdit?'edit the cat': 'Add New Cat'}</Button>
       </FormRow>
     </Form>
   );
