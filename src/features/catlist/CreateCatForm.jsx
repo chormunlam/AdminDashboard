@@ -5,10 +5,9 @@ import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
 import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createEditCat } from "../../services/apiSpace";
-import toast from "react-hot-toast";
 import FormRow from "../../ui/FormRow";
+import { useCreatCat } from "./useCreateCat";
+import { useEditCat } from "./useEditCat";
 
 /* eslint-disable */
 function CreateCatForm({catToEdit={}}) {
@@ -22,32 +21,13 @@ function CreateCatForm({catToEdit={}}) {
     }
   );
 
-  const queryClient = useQueryClient();
-  
-  const { mutate:createCat, isLoading: isCreating } = useMutation({
-    mutationFn: createEditCat,
-    onSuccess: () => {
-      toast.success("new cat sucessfully created");
-      queryClient.invalidateQueries({ queryKey: ["cat"] });
-      reset(); //only do it when sucess..
-    },
-    onError: (err) => toast.error(err.message),
-  });
 
-  const { mutate:editCat, isLoading: isEditing } = useMutation({
-    mutationFn: ({newCatData, id})=>createEditCat(newCatData, id),
-    onSuccess: () => {
-      toast.success("cat info sucessfully edited");
-      queryClient.invalidateQueries({ queryKey: ["cat"] });
-      reset(); //only do it when sucess..
-    },
-    onError: (err) => toast.error(err.message),
-  });
+  const {isCreating, createCat}=useCreatCat();
+
+  const {isEditing, editCat}=useEditCat();
 
   const isWorking = isCreating || isEditing;
 
-
-  
 
   const { errors } = formState;
   //console.log(errors);
@@ -58,7 +38,9 @@ function CreateCatForm({catToEdit={}}) {
 
     //
     if(isEdit) editCat({newCatData:{...data, image}, id:editId});//new cat data, and id
-    else createCat({...data, image: image});
+    else createCat({...data, image: image},{
+      onSuccess:()=>reset(),
+    });
     //createEditCat({...data, image:data.image[0]});
     //console.log(data);
   }

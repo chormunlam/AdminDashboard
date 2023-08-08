@@ -2,13 +2,14 @@ import styled from "styled-components";
 import Spinner from "../../ui/Spinner";
 import CatRow from "./CatRow";
 import { useState } from "react";
+import { useCats } from "./useCats";
 
 // var(--color-grey-0);
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
   font-size: 1.4rem;
-  background-color: yellow;
+  background-color: black;
   border-radius: 7px;
   overflow: auto;  // allow scrolling if content exceeds the container width
   width: 100%;     // take up the full width of its parent container
@@ -31,33 +32,19 @@ const TableHeader = styled.header`
     minmax(50px, 1fr);
   column-gap: 2.4rem;
   align-items: center;
-  background-color: green;
+  background-color: yellow;
   border-bottom: 1px solid var(--color-grey-100);
   text-transform: uppercase;
   letter-spacing: 0.4px;
   font-weight: 600;
   color: var(--color-grey-600);
   padding: 1.6rem 2.4rem;
-
-
 `;
 
-import React from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getCats } from "../../services/apiSpace";
 
 function CatTable() {
   //for 
-  
-
-  const {
-    isLoading,
-    data: cats,
-    error,
-  } = useQuery({
-    queryKey: ["cat"],
-    queryFn: getCats,//fetch('url')
-  });
+  const {isLoading, cats}= useCats();
   if (isLoading) return <Spinner />;
 
   return (

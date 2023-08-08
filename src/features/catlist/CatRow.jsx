@@ -1,32 +1,31 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers";
-import { deleteCat } from "../../services/apiSpace";
-import toast from "react-hot-toast";
 import CreateCatForm from "../catlist/CreateCatForm";
 import { useState } from "react";
+import { useDeleteCat } from "./useDeleteCat";
+import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
+import { useCreatCat } from "./useCreateCat";
 /* eslint-disable */
 
 const TableRow = styled.div`
   display: grid;
-  grid-template-columns: 
-  minmax(50px, 1fr) 
-  minmax(50px, 1fr) 
-  minmax(50px, 1fr) 
-  minmax(50px, 1fr) 
-  minmax(80px, 1.5fr) 
-  minmax(50px, 1fr);
-
-  column-gap: 1.4rem;
+  grid-template-columns:
+    minmax(50px, 1fr)
+    minmax(50px, 1fr)
+    minmax(50px, 1fr)
+    minmax(50px, 1fr)
+    minmax(80px, 1.5fr)
+    minmax(50px, 1fr);
+  column-gap: 2.4rem;
   align-items: center;
-  padding: 1.4rem 2.4rem;
-
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(9, 1fr); 
-    column-gap: 1rem;
-  }
+  background-color: pink;
+  border-bottom: 1px solid var(--color-grey-100);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  font-weight: 600;
+  color: var(--color-grey-600);
+  padding: 1.6rem 2.4rem;
 `;
-
 
 const Img = styled.img`
   display: block;
@@ -54,14 +53,14 @@ const CheckboxWrapper = styled.div`
   justify-content: center;
 `;
 
-const ReadOnlyCheckbox = styled.input.attrs({ type: 'checkbox' })`
+const ReadOnlyCheckbox = styled.input.attrs({ type: "checkbox" })`
   margin-right: 1px;
   pointer-events: none;
 `;
 
-
-function CatRow({cat}) {
-  const[showForm, setShowForm]=useState(false);
+function CatRow({ cat }) {
+  const [showForm, setShowForm] = useState(false);
+  const {isCreating, createCat}=useCreatCat();
   const {
     id: catId,
     name,
@@ -73,38 +72,45 @@ function CatRow({cat}) {
     description,
     contact,
     image,
-
   } = cat;
-  const queryClient = useQueryClient();
-  const { isLoading: isDeleting, mutate } = useMutation({
-    mutationFn: deleteCat,
-    onSuccess: () => {
-      toast.success("deleted ");
-      queryClient.invalidateQueries({
-        queryKey: ["cat"],
-      });
-    },
-    onError: (err) => toast.error(err.message),
-  });
-
-
+  const { isDeleting, deleteCat } = useDeleteCat();
+ function handleDuplicate(){
+  createCat({
+    name: `Copy of ${name}`,
+    gender,
+    age,
+    fee,
+    neutered,
+    vaccinated,
+    description,
+    contact,
+    image,
+  })
+ }
   return (
     <>
-    <TableRow>
-      <Img src={image} />
-      <div>{name}</div>
-      <div>{gender}</div>
-      <div>{age} yro</div>
-      <Price>{formatCurrency(fee)}</Price>
-  
-      <div>
-   <button onClick={()=>setShowForm(show=>!show)}> Edit </button>
-   <button onClick={() => mutate(catId)} disabled={isDeleting}>Delete</button>
-</div>
-    </TableRow>
-    {showForm && <CreateCatForm catToEdit= {cat}/>}
+      <TableRow>
+        <Img src={image} />
+        <div>{name}</div>
+        <div>{gender}</div>
+        <div>{age} yro</div>
+        <Price>{formatCurrency(fee)}</Price>
+
+        <div>
+          <button onClick={handleDuplicate}>
+            <HiSquare2Stack />
+          </button>
+          <button onClick={() => setShowForm((show) => !show)}>
+            <HiPencil />
+          </button>
+          <button onClick={() => deleteCat(catId)} disabled={isDeleting}>
+            <HiTrash />
+          </button>
+        </div>
+      </TableRow>
+      {showForm && <CreateCatForm catToEdit={cat} />}
     </>
   );
-  }
+}
 
 export default CatRow;
