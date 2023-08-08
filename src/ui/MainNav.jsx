@@ -63,7 +63,7 @@ function MainNav() {
           <StyledNavLink to="/users">Users</StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/Setting">Setting</StyledNavLink>
+          <StyledNavLink to="/settings">Setting</StyledNavLink>
         </li>
       </NavList>
     </nav>
