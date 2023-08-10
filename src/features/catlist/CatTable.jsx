@@ -4,7 +4,7 @@ import CatRow from "./CatRow";
 import { useState } from "react";
 import { useCats } from "./useCats";
 import Table from "../../ui/Table";
-
+import Menus from "../../ui/Menus";
 const TableHeader = styled.header`
   display: grid;
   grid-template-columns: 0.6fr 1.8fr 0.6fr 1fr 1fr 1fr;
@@ -25,21 +25,23 @@ function CatTable() {
   if (isLoading) return <Spinner />;
 
   return (
-    <Table columns="1fr 1fr 1fr 1fr 1.5fr 1fr;">
-      <Table.Header>
-        <div>img</div>
-        <div>Name</div>
-        <div>Gender</div>
-        <div>Age</div>
-        <div>Fee</div>
-        <div>edit/del</div>
-      </Table.Header>
+    <Menus>
+      <Table columns="1fr 1fr 1fr 1fr 1.5fr 1fr;">
+        <Table.Header>
+          <div>img</div>
+          <div>Name</div>
+          <div>Gender</div>
+          <div>Age</div>
+          <div>Fee</div>
+          <div>edit/del</div>
+        </Table.Header>
 
-      <Table.Body
-        data={cats}
-        render={(cat) => <CatRow cat={cat} key={cat.id} />}
-      />
-    </Table>
+        <Table.Body
+          data={cats}
+          render={(cat) => <CatRow cat={cat} key={cat.id} />}
+        />
+      </Table>
+    </Menus>
   );
 }
 

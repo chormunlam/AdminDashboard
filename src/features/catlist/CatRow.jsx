@@ -8,9 +8,8 @@ import { useCreatCat } from "./useCreateCat";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
+import Menus from "../../ui/Menus";
 /* eslint-disable */
-
-
 
 const Img = styled.img`
   display: block;
@@ -31,16 +30,6 @@ const Catdiv = styled.div`
 const Price = styled.div`
   font-family: "Sono";
   font-weight: 600;
-`;
-const CheckboxWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const ReadOnlyCheckbox = styled.input.attrs({ type: "checkbox" })`
-  margin-right: 1px;
-  pointer-events: none;
 `;
 
 function CatRow({ cat }) {
@@ -72,6 +61,8 @@ function CatRow({ cat }) {
       image,
     });
   }
+
+
   return (
     <Table.Row>
       <Img src={image} />
@@ -81,30 +72,35 @@ function CatRow({ cat }) {
       <Price>{formatCurrency(fee)}</Price>
 
       <div>
-        <button onClick={handleDuplicate}>
-          <HiSquare2Stack />
-        </button>
-
         <Modal>
-          <Modal.Open opens="edit">
-            <button>
-              <HiPencil />
-            </button>
-          </Modal.Open>
-          <Modal.Window name="edit">
-            <CreateCatForm catToEdit={cat} />
-          </Modal.Window>
-          
-          <Modal.Open opens='delete'>
-            <button>
-              <HiTrash />
-            </button>
-          </Modal.Open>
-          <Modal.Window name='delete'>
-            <ConfirmDelete resourceName='cats' 
-            disabled={isDeleting} onConfirm={() => deleteCat(catId)} />
-          </Modal.Window>
+          <Menus.Menu>
+            <Menus.Toggle id={catId} />
+            <Menus.List id={catId}>
+              <Menus.Button icon={<HiSquare2Stack />} onClick={handleDuplicate}>
+                Duplicate
+              </Menus.Button>
 
+              <Modal.Open opens="edit">
+                <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+              </Modal.Open>
+
+              <Modal.Open opens="delete">
+                <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+              </Modal.Open>
+            </Menus.List>
+
+            <Modal.Window name="edit">
+              <CreateCatForm catToEdit={cat} />
+            </Modal.Window>
+
+            <Modal.Window name="delete">
+              <ConfirmDelete
+                resourceName="cats"
+                disabled={isDeleting}
+                onConfirm={() => deleteCat(catId)}
+              />
+            </Modal.Window>
+          </Menus.Menu>
         </Modal>
       </div>
     </Table.Row>
