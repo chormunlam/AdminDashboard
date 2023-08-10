@@ -1,4 +1,3 @@
-import { createContext, useContext, useState } from "react";
 import { createPortal } from "react-dom";
 import { HiXMark } from "react-icons/hi2";
 import styled from "styled-components";
@@ -53,32 +52,11 @@ const Button = styled.button`
 `;
 /* eslint-disable */
 //we wnat to make it to compount 
-const ModalContext=createContext()
-//make the parent compoent call Modal
-function Modal({children}){
-  //keep track of which is currently open window.
-  const [openName, setOpenName]=useState('');
-  //handler function
-  const close = ()=> setOpenName('');
-  const open=()=>setOpenName;
-
-  return <ModalContext.Provider value={{openName, close, open}}>{children}</ModalContext.Provider>
-}
-function Open({children, opens:opensWindowName}){
-  const {open}=useContext(ModalContext)
-  return cloneElement(children, {onClick:()=>open(opensWindowName)});
-
-}
-
-//change the modal to window
-function Window({ children, name }) {
-  const {openName, close}=useContext(ModalContext);
-  if(name != openName) return null;
-
+function Modal({ children, onClose }) {
   return createPortal (
     <Overlay>
       <StyledModal>
-        <Button onClick={close}>
+        <Button onClick={onClose}>
           <HiXMark />
         </Button>
         <div>{children}</div>
@@ -87,7 +65,5 @@ function Window({ children, name }) {
     document.body //selcet this body to be parent what we want to render, but still same place in tree, so prop will pass correctly
   );
 }
-Modal.Open=Open;
-Modal.Window=Window;
 
 export default Modal;
