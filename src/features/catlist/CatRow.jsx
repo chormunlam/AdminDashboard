@@ -7,27 +7,10 @@ import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
 import { useCreatCat } from "./useCreateCat";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
+import Table from "../../ui/Table";
 /* eslint-disable */
 
-const TableRow = styled.div`
-  display: grid;
-  grid-template-columns:
-    minmax(50px, 1fr)
-    minmax(50px, 1fr)
-    minmax(50px, 1fr)
-    minmax(50px, 1fr)
-    minmax(80px, 1.5fr)
-    minmax(50px, 1fr);
-  column-gap: 2.4rem;
-  align-items: center;
-  background-color: pink;
-  border-bottom: 1px solid var(--color-grey-100);
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  font-weight: 600;
-  color: var(--color-grey-600);
-  padding: 1.6rem 2.4rem;
-`;
+
 
 const Img = styled.img`
   display: block;
@@ -90,7 +73,7 @@ function CatRow({ cat }) {
     });
   }
   return (
-    <TableRow>
+    <Table.Row>
       <Img src={image} />
       <div>{name}</div>
       <div>{gender}</div>
@@ -103,7 +86,7 @@ function CatRow({ cat }) {
         </button>
 
         <Modal>
-          <Modal.Open open="edit">
+          <Modal.Open opens="edit">
             <button>
               <HiPencil />
             </button>
@@ -124,7 +107,7 @@ function CatRow({ cat }) {
 
         </Modal>
       </div>
-    </TableRow>
+    </Table.Row>
   );
 }
 
