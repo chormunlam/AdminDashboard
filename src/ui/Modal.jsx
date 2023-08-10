@@ -52,30 +52,33 @@ const Button = styled.button`
   }
 `;
 /* eslint-disable */
-//we wnat to make it to compount 
-const ModalContext=createContext()
+//we wnat to make it to compount
+const ModalContext = createContext();
 //make the parent compoent call Modal
-function Modal({children}){
+function Modal({ children }) {
   //keep track of which is currently open window.
-  const [openName, setOpenName]=useState('');
+  const [openName, setOpenName] = useState("");
   //handler function
-  const close = ()=> setOpenName('');
-  const open=()=>setOpenName;
+  const close = () => setOpenName("");
+  const open = () => setOpenName;
 
-  return <ModalContext.Provider value={{openName, close, open}}>{children}</ModalContext.Provider>
+  return (
+    <ModalContext.Provider value={{ openName, close, open }}>
+      {children}
+    </ModalContext.Provider>
+  );
 }
-function Open({children, opens:opensWindowName}){
-  const {open}=useContext(ModalContext)
-  return cloneElement(children, {onClick:()=>open(opensWindowName)});
-
+function Open({ children, opens: opensWindowName }) {
+  const { open } = useContext(ModalContext);
+  return cloneElement(children, { onClick: () => open(opensWindowName) });
 }
 
 //change the modal to window
 function Window({ children, name }) {
-  const {openName, close}=useContext(ModalContext);
-  if(name != openName) return null;
+  const { openName, close } = useContext(ModalContext);
+  if (name != openName) return null;
 
-  return createPortal (
+  return createPortal(
     <Overlay>
       <StyledModal>
         <Button onClick={close}>
@@ -87,7 +90,7 @@ function Window({ children, name }) {
     document.body //selcet this body to be parent what we want to render, but still same place in tree, so prop will pass correctly
   );
 }
-Modal.Open=Open;
-Modal.Window=Window;
+Modal.Open = Open;
+Modal.Window = Window;
 
 export default Modal;
