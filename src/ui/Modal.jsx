@@ -1,8 +1,14 @@
-import { createContext, useContext, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  cloneElement,
+} from "react";
 import { createPortal } from "react-dom";
 import { HiXMark } from "react-icons/hi2";
 import styled from "styled-components";
-
+import { useOustsideClick } from "../hooks/useOutsideClick";
+/* eslint-disable */
 const StyledModal = styled.div`
   position: fixed;
   top: 50%;
@@ -45,22 +51,16 @@ const Button = styled.button`
   & svg {
     width: 2.4rem;
     height: 2.4rem;
-    /* Sometimes we need both */
-    /* fill: var(--color-grey-500);
-    stroke: var(--color-grey-500); */
     color: var(--color-grey-500);
   }
 `;
-/* eslint-disable */
-//we wnat to make it to compount
+
 const ModalContext = createContext();
-//make the parent compoent call Modal
+
 function Modal({ children }) {
-  //keep track of which is currently open window.
   const [openName, setOpenName] = useState("");
-  //handler function
   const close = () => setOpenName("");
-  const open = () => setOpenName;
+  const open = setOpenName;
 
   return (
     <ModalContext.Provider value={{ openName, close, open }}>
@@ -68,28 +68,32 @@ function Modal({ children }) {
     </ModalContext.Provider>
   );
 }
+
 function Open({ children, opens: opensWindowName }) {
   const { open } = useContext(ModalContext);
   return cloneElement(children, { onClick: () => open(opensWindowName) });
 }
 
-//change the modal to window
 function Window({ children, name }) {
   const { openName, close } = useContext(ModalContext);
-  if (name != openName) return null;
+
+ const ref=useOustsideClick(close)
+
+  if (name !== openName) return null;
 
   return createPortal(
     <Overlay>
-      <StyledModal>
+      <StyledModal ref={ref}>
         <Button onClick={close}>
           <HiXMark />
         </Button>
-        <div>{children}</div>
+        <div>{cloneElement(children, { onCloseModal: close })}</div>
       </StyledModal>
     </Overlay>,
-    document.body //selcet this body to be parent what we want to render, but still same place in tree, so prop will pass correctly
+    document.body
   );
 }
+
 Modal.Open = Open;
 Modal.Window = Window;
 

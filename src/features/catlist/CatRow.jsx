@@ -1,10 +1,12 @@
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers";
 import CreateCatForm from "../catlist/CreateCatForm";
-import { useState } from "react";
+//import { useState } from "react";
 import { useDeleteCat } from "./useDeleteCat";
 import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
 import { useCreatCat } from "./useCreateCat";
+import Modal from "../../ui/Modal";
+import ConfirmDelete from "../../ui/ConfirmDelete";
 /* eslint-disable */
 
 const TableRow = styled.div`
@@ -59,8 +61,8 @@ const ReadOnlyCheckbox = styled.input.attrs({ type: "checkbox" })`
 `;
 
 function CatRow({ cat }) {
-  const [showForm, setShowForm] = useState(false);
-  const {isCreating, createCat}=useCreatCat();
+  //const [showForm, setShowForm] = useState(false);
+  const { isCreating, createCat } = useCreatCat();
   const {
     id: catId,
     name,
@@ -74,42 +76,55 @@ function CatRow({ cat }) {
     image,
   } = cat;
   const { isDeleting, deleteCat } = useDeleteCat();
- function handleDuplicate(){
-  createCat({
-    name: `Copy of ${name}`,
-    gender,
-    age,
-    fee,
-    neutered,
-    vaccinated,
-    description,
-    contact,
-    image,
-  })
- }
+  function handleDuplicate() {
+    createCat({
+      name: `Copy of ${name}`,
+      gender,
+      age,
+      fee,
+      neutered,
+      vaccinated,
+      description,
+      contact,
+      image,
+    });
+  }
   return (
-    <>
-      <TableRow>
-        <Img src={image} />
-        <div>{name}</div>
-        <div>{gender}</div>
-        <div>{age} yro</div>
-        <Price>{formatCurrency(fee)}</Price>
+    <TableRow>
+      <Img src={image} />
+      <div>{name}</div>
+      <div>{gender}</div>
+      <div>{age} yro</div>
+      <Price>{formatCurrency(fee)}</Price>
 
-        <div>
-          <button onClick={handleDuplicate}>
-            <HiSquare2Stack />
-          </button>
-          <button onClick={() => setShowForm((show) => !show)}>
-            <HiPencil />
-          </button>
-          <button onClick={() => deleteCat(catId)} disabled={isDeleting}>
-            <HiTrash />
-          </button>
-        </div>
-      </TableRow>
-      {showForm && <CreateCatForm catToEdit={cat} />}
-    </>
+      <div>
+        <button onClick={handleDuplicate}>
+          <HiSquare2Stack />
+        </button>
+
+        <Modal>
+          <Modal.Open open="edit">
+            <button>
+              <HiPencil />
+            </button>
+          </Modal.Open>
+          <Modal.Window name="edit">
+            <CreateCatForm catToEdit={cat} />
+          </Modal.Window>
+          
+          <Modal.Open opens='delete'>
+            <button>
+              <HiTrash />
+            </button>
+          </Modal.Open>
+          <Modal.Window name='delete'>
+            <ConfirmDelete resourceName='cats' 
+            disabled={isDeleting} onConfirm={() => deleteCat(catId)} />
+          </Modal.Window>
+
+        </Modal>
+      </div>
+    </TableRow>
   );
 }
 
