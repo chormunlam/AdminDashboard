@@ -1,5 +1,11 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { QueryClient } from "@tanstack/query-core";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Toaster } from "react-hot-toast";
+
 import GlobalStyles from "./styles/GlobalStyles";
+
 import Dashboard from "./pages/Dashboard";
 import Bookings from "./pages/Bookings";
 import Cats from "./pages/Cats";
@@ -8,12 +14,12 @@ import Settings from "./pages/Settings";
 import Account from "./pages/Account";
 import Login from "./pages/Login";
 import PageNotFound from "./pages/PageNotFound";
+
 import AppLayout from "./ui/AppLayout";
 import ProtectedRoute from "./ui/ProtectedRoute";
-import { QueryClient } from "@tanstack/query-core";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { Toaster } from "react-hot-toast";
+//https://codepen.io/rickyeckhardt/pen/oNXeoZp   pet upload form
+//
+
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,7 +28,9 @@ const queryClient = new QueryClient({
     },
   },
 });
-
+//the routing method is old,but still can do the work, but can't not use it to load data or submit data using form
+//the new methold:
+// const router = createBrowserRouter([{path:'/', element:<Home />},{},{},....])
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
@@ -31,15 +39,16 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
-            <Route index element={<Navigate replace to="dashboard" />} />
+            <Route index element={<Navigate replace to="cats" />} />
             <Route path="dashboard" element={<Dashboard />} />
+     
             <Route path="bookings" element={<Bookings />} />
             <Route path="cats" element={<Cats />} />
             <Route path="users" element={<Users />} />
             <Route path="settings" element={<Settings />} />
             <Route path="account" element={<Account />} />
           </Route>
-
+        
           <Route path="login" element={<Login />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
