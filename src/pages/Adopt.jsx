@@ -1,7 +1,7 @@
 import Heading from "../ui/Heading";
 import Row from "../ui/Row";
 import AdoptForm from "../ui/AdoptForm";
-function Bookings() {
+function Adopt() {
   return (
     <>
       <Row type="horizontal">
@@ -14,4 +14,4 @@ function Bookings() {
   );
 }
 
-export default Bookings;
+export default Adopt;

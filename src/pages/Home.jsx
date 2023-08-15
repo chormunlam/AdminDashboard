@@ -20,7 +20,7 @@ const CatGrid = styled.div`
 
 
 
-function Dashboard() {
+function Home() {
   const { isLoading, cats } = useCats();
   const [searchParams] = useSearchParams(); //for fileter
 
@@ -45,4 +45,4 @@ function Dashboard() {
   );
 }
 //https://codepen.io/michellebarker/pen/abVJozd
-export default Dashboard;
+export default Home;
