@@ -6,8 +6,8 @@ import { Toaster } from "react-hot-toast";
 
 import GlobalStyles from "./styles/GlobalStyles";
 
-import Dashboard from "./pages/Dashboard";
-import Bookings from "./pages/Bookings";
+import Home from "./pages/Home";
+import Adopt from "./pages/Adopt";
 import Cats from "./pages/Cats";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
@@ -40,9 +40,9 @@ function App() {
         <Routes>
           <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
             <Route index element={<Navigate replace to="cats" />} />
-            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="home" element={<Home />} />
      
-            <Route path="bookings" element={<Bookings />} />
+            <Route path="adopt" element={<Adopt />} />
             <Route path="cats" element={<Cats />} />
             <Route path="users" element={<Users />} />
             <Route path="settings" element={<Settings />} />
