@@ -40,7 +40,7 @@ function App() {
         <Routes>
           <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
             <Route index element={<Navigate replace to="cats" />} />
-            <Route path="home" element={<Home />} />
+            {/* <Route path="home" element={<Home />} /> */}
      
             <Route path="adopt" element={<Adopt />} />
             <Route path="cats" element={<Cats />} />
@@ -48,9 +48,11 @@ function App() {
             <Route path="settings" element={<Settings />} />
             <Route path="account" element={<Account />} />
           </Route>
-        
+          <Route element={<AppLayout />}>
           <Route path="login" element={<Login />} />
+          <Route path="home" element={<Home />} />
           <Route path="*" element={<PageNotFound />} />
+          </Route>
         </Routes>
       </BrowserRouter>
       <Toaster

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Button from "./Button";
 
 const Label = styled.label`
   display: block;
@@ -6,7 +7,26 @@ const Label = styled.label`
 `;
 
 const Input = styled.input`
-  // You can add specific styles for the input here if needed
+  position: relative;
+  background-color: transparent;
+  border: 1px solid #9CA3AF; /* Tailwind's border-neutral-500 */
+  color: #1F2937; /* Tailwind's text-neutral-900 */
+  font-size: 0.875rem; /* Tailwind's text-sm */
+  border-radius: 0.375rem; /* Tailwind's rounded-lg */
+  width: 100%; /* Tailwind's w-full */
+  padding: 0.625rem; /* Custom padding, close to Tailwind's p-2.5 */
+  outline: none;
+  ::placeholder {
+    color: #9333EA; /* Tailwind's placeholder-violet-700 */
+    opacity: 0.6; /* Tailwind's placeholder-opacity-60 */
+  }
+  :focus {
+    border-color: #7C3AED; /* Tailwind's focus:border-violet-500 */
+    box-shadow: 0 0 0 2px #7C3AED; /* Tailwind's focus:ring and focus:ring-violet-500 */
+  }
+  :checked {
+    background-color: #10B981; /* Tailwind's checked:bg-emerald-500 */
+  }
 `;
 
 function AdoptForm() {
@@ -88,11 +108,13 @@ function AdoptForm() {
       {/* Previous and Current Pet Information */}
       <h2>PREVIOUS AND CURRENT PET INFORMATION</h2>
       <Label>
-        Have you ever had a pet: Run Away, Get hit by a car, Die in your care, Kept as an outdoor pet? If so, please explain:
+        Have you ever had a pet: Run Away, Get hit by a car, Die in your care,
+        Kept as an outdoor pet? If so, please explain:
         <Input type="text" />
       </Label>
       <Label>
-        Have you ever surrendered any pet to a private rescue or individual? If yes, please explain the circumstance:
+        Have you ever surrendered any pet to a private rescue or individual? If
+        yes, please explain the circumstance:
         <Input type="text" />
       </Label>
       {/* Current Pets Information */}
@@ -113,7 +135,8 @@ function AdoptForm() {
         How long have you owned? Inside/outside/both? <Input type="text" />
       </Label>
       <Label>
-        Are your current animals up to date on vaccines? <Input type="checkbox" />
+        Are your current animals up to date on vaccines?{" "}
+        <Input type="checkbox" />
       </Label>
       {/* Previous Pets Information */}
       <h3>Previous Pets:</h3>
@@ -144,10 +167,18 @@ function AdoptForm() {
       </Label>
       {/* Household Info */}
       <h2>HOUSEHOLD INFORMATION</h2>
-      <Label>Name and age: <Input type="text" /></Label>
-      <Label>Relationship: <Input type="text" /></Label>
-      <Label>Name and age: <Input type="text" /></Label>
-      <Label>Relationship: <Input type="text" /></Label>
+      <Label>
+        Name and age: <Input type="text" />
+      </Label>
+      <Label>
+        Relationship: <Input type="text" />
+      </Label>
+      <Label>
+        Name and age: <Input type="text" />
+      </Label>
+      <Label>
+        Relationship: <Input type="text" />
+      </Label>
 
       <Label>
         Anyone has allergies to animals? If YES, on medication?
@@ -158,9 +189,9 @@ function AdoptForm() {
         <Input type="checkbox" />
       </Label>
 
-
-      <button type="submit">Submit</button>
-
+      <Button variation="pink" type="submit">
+        Submit
+      </Button>
     </form>
   );
 }

@@ -4,13 +4,19 @@ import styled from "styled-components";
 const NavList = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
-`;
 
+  gap: 0.8rem;
+  @media (min-width: 768px) {
+    flex-direction: row;
+
+  }
+`;
+//
 const StyledNavLink = styled(NavLink)`
   &:link,
   &:visited {
     display: flex;
+    flex-direction: columns;
     align-items: center;
     gap: 1.2rem;
 
@@ -46,6 +52,8 @@ const StyledNavLink = styled(NavLink)`
   }
 `;
 
+
+
 function MainNav() {
   return (
     <nav>
@@ -54,13 +62,13 @@ function MainNav() {
           <StyledNavLink to="/home">Home</StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/adopt">Adopt</StyledNavLink>
+          <StyledNavLink to="/adopt">Adopt Form</StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/cats">Cats</StyledNavLink>
+          <StyledNavLink to="/cats">add Cats</StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/users">Users</StyledNavLink>
+          <StyledNavLink to="/users">add Users</StyledNavLink>
         </li>
         <li>
           <StyledNavLink to="/settings">Setting</StyledNavLink>
