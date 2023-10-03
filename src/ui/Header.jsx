@@ -5,6 +5,8 @@ import MainNav from "./MainNav";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 
+import { GiHamburgerMenu } from "react-icons/gi";
+
 /* eslint-disable */
 const StyledHeader = styled.header`
   display: flex;
@@ -51,15 +53,10 @@ const StyledNav = styled.nav`
 
 const MobileMenuIcon = styled.div`
   margin: auto 0 auto auto;
-  width: 25px;
-  min-width: 25px;
+  width: 28px;
+  min-width: 28px;
   padding: 5px;
-  > div {
-    height: 3px;
-    background: black;
-    margin: 5px 0;
-    width: 100%;
-  }
+ 
 
   @media (min-width: 768px) {
     display: none;
@@ -75,9 +72,10 @@ function Header() {
       <Logo />
 
       <MobileMenuIcon onClick={() => setMenuOpen((s) => !s)}>
+        <GiHamburgerMenu/>
+        {/* <div />
         <div />
-        <div />
-        <div />
+        <div /> */}
       </MobileMenuIcon>
       <StyledNav open={menuOpen}>
         <MainNav />
